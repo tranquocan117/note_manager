@@ -17,11 +17,6 @@ class App extends Component {
     this.state={}
   }
   
-  // for react thuan
-  // addData=(item)=>{
-  //   noteData.push(item)
-  // }
-
   showForm=()=>{
     if (this.props.isEdit) {
       return <NoteForm/>
