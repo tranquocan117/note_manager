@@ -11,15 +11,16 @@ const noteInitialState = {
     alertContent:"",
     alertType:"",
 }
+
 const allReducer = (state = noteInitialState, action) => {
     switch (action.type) {
+  
         case 'ADD_DATA':
+            //push data of getItem into table of noteData 
             noteData.push(action.getItem)
-            // console.log('Da them data thanh cong'+ JSON.stringify(action.getItem))
-
+     
         case 'CHANGE_EDIT_STATUS':
             return {...state,isEdit:!state.isEdit}
-
 
         case 'CHANGE_ADD_STATUS':
             return {...state,isAdd:!state.isAdd}
@@ -37,12 +38,13 @@ const allReducer = (state = noteInitialState, action) => {
             return {...state,editItem:{}}
         
         case 'DELETE':
-            
+            // remove note 
             noteData.child(action.deleteId).remove()
-            console.log('du lieu can xoa co id' + action.deleteId+'xoa thanh cong')
             return state
+
         case 'ALERT_ON':
             return {...state,alertShow:true,alertContent:action.AlertContent,alertType:action.alertType}
+            
         case 'ALERT_OFF':
             return {...state,alertShow:false}
 

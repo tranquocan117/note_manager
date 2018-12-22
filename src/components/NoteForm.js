@@ -11,8 +11,7 @@ class NoteForm extends Component {
             id:''
         }
     }
-    
-    
+
     componentWillMount() {
         if (this.props.editItem){
             //edit case
@@ -23,30 +22,23 @@ class NoteForm extends Component {
             });
         }
     }
-    
+
+    // get data from form, then save into state
     isChange=(event)=>{
+       
         const name=event.target.name
         const value=event.target.value
-      
+     
         this.setState({
             [name]:value
         });
     
     }
-    // for react thuan
-    // addData=(title,content)=>{
-    //     var item={}
-    //     item.noteTitle=title
-    //     item.noteContent=content
-      
-    //    this.props.getData(item)
 
-    // }
-
-
+    //click to Add button 
     addData=(title,content)=>{
-        if (this.state.id) { //sua du lieu
-            console.log('dang sua du lieu')
+        // if id is not empty => edit note
+        if (this.state.id) { 
             var editObject={}
             editObject.id=this.state.id
             editObject.noteTitle=this.state.noteTitle
@@ -58,17 +50,18 @@ class NoteForm extends Component {
 
             
         }
-        else {  //add du lieu moi
+        // if id is not empty => add new note
+        else { 
             var item={}
             item.noteTitle=title
             item.noteContent=content
-        
+            // transfer var of item to store 
             this.props.addDataStore(item)
             this.props.alertOn("Add successfully ","success") //thong bao on
         }
         
     }
-
+    // to print title Add Note or Edit Note
     printTitle=()=>{
         if (this.props.isAdd) {
             return <h4>Add Note</h4>
@@ -79,27 +72,26 @@ class NoteForm extends Component {
     }
 
     render() {
-        
         return (
-<div className="col-4">
-  {this.printTitle()}
-  <form>
-    <div className="form-group">
-        <label htmlFor="noteTitle">Note Title</label>
-        <input defaultValue={this.props.editItem.noteTitle} type="text" onChange={(event)=>{this.isChange(event)}} className="form-control" name="noteTitle" id="noteTitle" aria-describedby="helpIdNoteTitle"  />
-       
-    </div>
-    <div className="form-group">
-        <label htmlFor="noteContent">Note Content</label>
-        <textarea defaultValue={this.props.editItem.noteContent} onChange={(event)=>{this.isChange(event)}} className="form-control" name="noteContent" id="noteContent" rows={5}  />
-    </div>
-    <button type="reset" onClick={()=>this.addData(this.state.noteTitle,this.state.noteContent)} className="btn btn-primary btn-block">Save</button>
-  </form>
-</div>
-
+            <div className="col-4">
+                {this.printTitle()}
+                <form>
+                    <div className="form-group">
+                        <label htmlFor="noteTitle">Note Title</label>
+                        <input defaultValue={this.props.editItem.noteTitle} onChange={(event)=>{this.isChange(event)}} type="text" className="form-control" name="noteTitle" id="noteTitle" aria-describedby="helpIdNoteTitle"  />
+                    
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="noteContent">Note Content</label>
+                        <textarea defaultValue={this.props.editItem.noteContent} onChange={(event)=>{this.isChange(event)}} className="form-control" name="noteContent" id="noteContent" rows={5}  />
+                    </div>
+                    <button type="reset" onClick={()=>this.addData(this.state.noteTitle,this.state.noteContent)} className="btn btn-primary btn-block">Save</button>
+                </form>
+            </div>
         );
     }
-}
+
+}// end class NoteForm
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -108,7 +100,7 @@ const mapStateToProps = (state, ownProps) => {
         alertContent:state.alertContent
     }
 }
-//this.props.test
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addDataStore: (getItem) => {
@@ -130,7 +122,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
        
     }
 }
-//this.props.addDataStore()
  
 export default connect(mapStateToProps, mapDispatchToProps)(NoteForm);
 
