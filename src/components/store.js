@@ -14,27 +14,27 @@ const noteInitialState = {
 
 const allReducer = (state = noteInitialState, action) => {
     switch (action.type) {
-  
-        case 'ADD_DATA':
-            //push data of getItem into table of noteData 
-            noteData.push(action.getItem)
-     
-        case 'CHANGE_EDIT_STATUS':
-            return {...state,isEdit:!state.isEdit}
-
         case 'CHANGE_ADD_STATUS':
             return {...state,isAdd:!state.isAdd}
 
+        case 'ADD_DATA':
+            //push data of getItem into table of noteData 
+            noteData.push(action.getItem)
+            return state
+     
+        case 'CHANGE_EDIT_STATUS':
+            return {...state,isEdit:!state.isEdit}
+        
+        // get data in edit form
         case 'GET_EDIT_DATA':
             return {...state,editItem:action.editObject}
 
         case 'EDIT':
-            //update du lieu len firebase
+            //update data into table
             noteData.child(action.getItem.id).update({
                 noteTitle: action.getItem.noteTitle,
                 noteContent:action.getItem.noteContent
             })
-            console.log('du lieu can sua '+JSON.stringify(action.getItem)+'da update thanh cong')
             return {...state,editItem:{}}
         
         case 'DELETE':
@@ -57,5 +57,4 @@ var store=redux.createStore(allReducer)
 store.subscribe(function(){
     console.log(JSON.stringify(store.getState()))
 })
-
 export default store

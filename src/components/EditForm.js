@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class NoteForm extends Component {
+class EditForm extends Component {
 
     constructor(props) {
         super(props);
@@ -11,10 +11,9 @@ class NoteForm extends Component {
             id:''
         }
     }
-
+    // get data of note before editting
     componentWillMount() {
         if (this.props.editItem){
-            //edit case
             this.setState({
                 noteTitle:this.props.editItem.noteTitle,
                 noteContent:this.props.editItem.noteContent,
@@ -30,51 +29,26 @@ class NoteForm extends Component {
         this.setState({
             [name]:value
         });
-    
     }
 
-    //click to Add button 
-    addData=(title,content)=>{
-        // if id is not empty => edit note
-        if (this.state.id) { 
-            var editObject={}
-            editObject.id=this.state.id
-            editObject.noteTitle=this.state.noteTitle
-            editObject.noteContent=this.state.noteContent
-            // transfer data of editObject to store
-            this.props.editDataStore(editObject) 
-            //change isEdit state
-            this.props.changeEditStatus() 
-            // alert on
-            this.props.alertOn("Edited successfully","success") 
-
-            
-        }
-        // if id is not empty => add new note
-        else { 
-            var item={}
-            item.noteTitle=title
-            item.noteContent=content
-            // transfer var of item to store 
-            this.props.addDataStore(item)
-            this.props.alertOn("Added successfully ","success") //thong bao on
-        }
-        
-    }
-    // to print title Add Note or Edit Note
-    printTitle=()=>{
-        if (this.props.isAdd) {
-            return <h4>Add Note</h4>
-        }
-        else {
-            return <h4>Edit Note</h4>
-        }
+    //click Save
+    editData=(title,content)=>{
+        var editObject={}
+        editObject.id=this.state.id
+        editObject.noteTitle=this.state.noteTitle
+        editObject.noteContent=this.state.noteContent
+        // transfer data of editObject to store
+        this.props.editDataStore(editObject) 
+        // alert on
+        this.props.alertOn("Edited successfully","success") 
+        //change edit status
+        this.props.changeEditStatus() 
     }
 
     render() {
         return (
             <div className="col-4">
-                {this.printTitle()}
+                <h4>Edit Note</h4>
                 <form>
                     <div className="form-group">
                         <label htmlFor="noteTitle">Note Title</label>
@@ -84,26 +58,21 @@ class NoteForm extends Component {
                         <label htmlFor="noteContent">Note Content</label>
                         <textarea defaultValue={this.props.editItem.noteContent} onChange={(event)=>{this.isChange(event)}} className="form-control" name="noteContent" id="noteContent" rows={5}  />
                     </div>
-                    <button type="reset" onClick={()=>this.addData(this.state.noteTitle,this.state.noteContent)} className="btn btn-primary btn-block">Save</button>
+                    <button type="reset" onClick={()=>this.editData(this.state.noteTitle,this.state.noteContent)} className="btn btn-primary btn-block">Save</button>
                 </form>
             </div>
         );
     }
-}// end class NoteForm
+}// end class EditForm
 
 const mapStateToProps = (state, ownProps) => {
     return {
         editItem: state.editItem,
-        isAdd:state.isAdd,
-        alertContent:state.alertContent
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        addDataStore: (getItem) => {
-            dispatch({type:'ADD_DATA',getItem})
-        },
         editDataStore: (getItem) => {
             dispatch({type:'EDIT',getItem})
         },
@@ -112,13 +81,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           },
         alertOn: (AlertContent,alertType) => {
             dispatch({type:'ALERT_ON',AlertContent,alertType})
-        }, 
-       
-        alertOff: () => {
-            dispatch({type:'ALERT_OFF'})
-          }
+        } 
     }
 }
  
-export default connect(mapStateToProps, mapDispatchToProps)(NoteForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditForm);
 

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-
 import './App.css';
 import Nav from './Nav';
 import NoteList from './NoteList';
-import NoteForm from './NoteForm';
-
-
 import { connect } from 'react-redux';
-
 import AlertInfo from './AlertInfo';
+import AddForm from './AddForm';
+import EditForm from './EditForm';
 
 class App extends Component {
 
@@ -18,18 +15,15 @@ class App extends Component {
   }
   
   showForm=()=>{
-    if (this.props.isEdit) {
-      return <NoteForm/>
+    if (this.props.isAdd) {
+      return <AddForm/>
     }
-
-    
+    if (this.props.isEdit){
+      return <EditForm/>
+    }
   }
 
   render() {
-    // test firebase xem nhan data duoc chua
-    // noteData.once('value').then(function(snapshot){
-    //   console.log(snapshot.val())
-    // })
     return (
       <div>
           <Nav/>
@@ -37,19 +31,19 @@ class App extends Component {
           <div className="container">
             <div className="row">
               <NoteList/>
-              {/* <NoteForm getData={(item)=>this.addData(item)}/> */}
               {this.showForm()}
             </div>
           </div>
      </div> 
-    
     );
   }
-}
+
+}// end App class
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isEdit: state.isEdit
+    isAdd: state.isAdd,
+    isEdit:state.isEdit
   }
 }
 
@@ -60,7 +54,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
 
