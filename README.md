@@ -1,8 +1,17 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This project provides interface for user to do these tasks: add, edit and remove note.
+And it uses firebase to store data. Each note data includes id, noteTitle and noteContent.
+It was written by reactjs and redux.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Install necessary packages to run apps.
 
 ### `npm start`
 

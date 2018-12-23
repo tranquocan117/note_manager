@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NoteItem from './NoteItem';
-import { noteData } from './firebaseConnect';
+import { noteData } from './../DAO_note/firebaseConnect';
 
 class NoteList extends Component {
 
